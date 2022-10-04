@@ -7,7 +7,26 @@ export default async function Todo(props){
     let queriedData= await fetch("all_todo")
     return (
         <div className="todoCont">
-            {/* body goes here */}
+            {/* items go here */}
+            <div className="profile-nd-todo">
+                <div className="profile">
+                    <img src="" alt="activity owner" />
+                    <div id="user-info">
+                        <h4 id="user-name">
+                            {/* takes in the username */}
+                        </h4>
+                    </div>
+                </div>
+                <div className="todo-div">
+                    {
+                        queriedData ? queriedData.map((data, idx)=>{
+                            <div id="data" key={idx}>
+                                data.date
+                            </div>
+                        }) : ''
+                    }
+                </div>
+            </div>
         </div>
     )
 }
