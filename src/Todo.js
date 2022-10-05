@@ -5,6 +5,7 @@ import React, {useState} from "react"
 export default async function Todo(props){
     let [data, setData]= useState([])
     let queriedData= await fetch("all_todo")
+    queryData ? setData(queriedData) : ""
     return (
         <div className="todoCont">
             {/* items go here */}
@@ -19,11 +20,11 @@ export default async function Todo(props){
                 </div>
                 <div className="todo-div">
                     {
-                        queriedData ? queriedData.map((data, idx)=>{
+                        data.map((item, idx)=>{
                             <div id="data" key={idx}>
-                                data.date
+                                item.date
                             </div>
-                        }) : ''
+                        })
                     }
                 </div>
             </div>
