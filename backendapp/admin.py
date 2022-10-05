@@ -3,7 +3,7 @@ from .models import *
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as CustomUserAdmin
-from todo_models import Todo
+from .todo_models import Todo
 # Register your models here.
 class UserCreationForm(forms.ModelForm):
     """
