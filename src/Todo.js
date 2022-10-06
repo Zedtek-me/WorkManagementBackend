@@ -2,10 +2,12 @@
 import React, {useState} from "react"
 
 
-export default async function Todo(props){
+export default function Todo(props){
     let [data, setData]= useState([])
-    let queriedData= await fetch("all_todo")
-    queryData ? setData(queriedData) : ""
+    fetch("all_todo")
+    .then((resp)=> resp.json())
+    .then((data)=> setData(data))
+    data ? console.log(data) : ''
     return (
         <div className="todoCont">
             {/* items go here */}

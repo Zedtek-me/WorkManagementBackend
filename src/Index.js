@@ -1,9 +1,7 @@
 import React from "react"
-import ReactDom from "react-dom"
+import {createRoot}from "react-dom/client"
 import App from "./App"
+import ReactDom from "react-dom"
 
-
-
-// ReactDom.render(
-//     <App/>, document.querySelector(".rootFile")
-// )
+let root= ReactDom.createRoot(document.querySelector("#root"))
+root.render(<App tab="home"/>)
