@@ -5,7 +5,8 @@ module.exports= {
     mode:"development",
     entry: path.join(__dirname, "/src/index.js"),
     output: {
-        filename: "bundle.js"
+        // path: path.join(__dirname, "public/"),
+        filename: "index_bundle.js"
     },
     module:{
         rules:[
@@ -19,12 +20,19 @@ module.exports= {
                     }
                 }
             },
+
+            {
+                test: /\.(css|scss)$/,
+                use: {
+                    loader:"css-loader"
+                }
+            }
         ]
     },
     plugins:[
         new HtmlWebpackPlugin(
             {
-                inject: true,
+                inject: "body",
                 template: path.join(__dirname, "public/index.html")
             }
         )
