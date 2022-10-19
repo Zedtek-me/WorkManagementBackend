@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import *
-from rest_framework.routers import DefaultRouter
+from backendapp.views import *
 
 urlpatterns=[
-    path('', TodoView.as_view(), name= 'initial')
+    path('', TodoView.as_view(), name= 'initial'),
+    path("create_user", UserInfo.as_view(), name="user workarounds"),
+    path("get_user_info", UserInfo.as_view(), name="get user info"),
+    path("log_in", UserInfo.as_view(), name="log in")
 ]
