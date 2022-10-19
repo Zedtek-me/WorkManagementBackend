@@ -14,6 +14,7 @@ class Todo(models.Model):
     date_modified= models.DateTimeField(auto_now= True)
     start_date= models.DateTimeField(null=False, blank=False, unique=False)
     end_date= models.DateTimeField(null=False, blank=False, unique=False)
+    item= models.CharField(max_length= 500000000000000000, blank=False, null= False, unique= False, default=None)
 
     def __str__(self):
         return self.owner.username + " " + "todo."

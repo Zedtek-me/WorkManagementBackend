@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from backendapp.todo_models import *
 from backendapp.serializers import *
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, authenticate
 # Create your views here.
 
 
@@ -41,8 +41,10 @@ class UserInfo(APIView):
         try:
             user= User.objects.get(id=int(pk))
         except User.DoesNotExist:
+            print("user not exist")
             return Response({"not_a_user": "this user does not exist"}, status.HTTP_404_NOT_FOUND)
-        return Response({"user": user}, status.HTTP_200_OK)
+        serialized_user= UserSerializer(user)
+        return Response({"user": serialized_user.data}, status.HTTP_200_OK)
     
     def post(self, request):
         '''

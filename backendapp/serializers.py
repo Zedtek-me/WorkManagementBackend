@@ -5,7 +5,7 @@ class TodoSerializer(ModelSerializer):
     '''
     serializes todo activities.
     '''
-    user= StringRelatedField(many=True)
+    owner= StringRelatedField()
     class Meta:
         model= Todo
         fields= "__all__"
@@ -14,4 +14,4 @@ class TodoSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model= User
-        fields= "__all__"
+        exclude=["password"]
