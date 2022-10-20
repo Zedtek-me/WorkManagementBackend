@@ -4,6 +4,8 @@ from rest_framework import status
 from backendapp.todo_models import *
 from backendapp.serializers import *
 from django.contrib.auth import login, authenticate
+from django.db.models import Q
+import json
 # Create your views here.
 
 
@@ -13,9 +15,11 @@ class TodoView(APIView):
     '''
     def get(self, request):
         if not request.query_params:
+            # to get all todo activities
             todo= Todo.objects.all()
             serialized_todo= TodoSerializer(todo, many=True)
-            return Response({"data": serialized_todo.data}, status.HTTP_200_OK)
+            return Response(serialized_todo.data, status.HTTP_200_OK)
+        # otherwise get one activity
         pk= request.query_params.get("pk")
         try:
             todo= Todo.objects.get(pk=int(pk))
@@ -25,8 +29,14 @@ class TodoView(APIView):
         return Response({"todo":serialized_single_todo}, status.HTTP_200_OK)
 
     def post(self, request):
+        if not "To-Create-Todo" in request.headers:
+            # meant to search for a data at the backend
+            data= json.loads(request.body)
+            db_data= Todo.objects.fileter(Q(item__icontains=data.get("query"))| Q(name__icontains=data.get("query")))
+            if db_data:
+                serialized_result= TodoSerializer(db_data, many=True)
+                return Response(serialized_result.data, status.HTTP_200_OK)
         data= request.data
-        print(data)
         return Response({"sent_data": data}, status.HTTP_200_OK)
 
 
