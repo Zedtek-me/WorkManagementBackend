@@ -34,17 +34,26 @@ class UserInfo(APIView):
     '''
     handles all user activities, including authentication, permission and session data
     '''
-    def get(self, request, pk):
+    def get(self, request):
         '''
         to get a user detail: logged in or not
         '''
-        try:
-            user= User.objects.get(id=int(pk))
-        except User.DoesNotExist:
-            print("user not exist")
-            return Response({"not_a_user": "this user does not exist"}, status.HTTP_404_NOT_FOUND)
-        serialized_user= UserSerializer(user)
-        return Response({"user": serialized_user.data}, status.HTTP_200_OK)
+        params= request.query_params
+        if params:
+            '''
+            gets a single user if there's a query parameter in the get request.
+            '''
+            try:
+                user= User.objects.get(id=int(params.get("pk")))
+            except User.DoesNotExist:
+                print("user not exist")
+                return Response({"not_a_user": "this user does not exist"}, status.HTTP_404_NOT_FOUND)
+            serialized_user= UserSerializer(user)
+            return Response({"user": serialized_user.data}, status.HTTP_200_OK)
+        # otherwise return the entire users
+        users= User.objects.all()
+        serialized_users= UserSerializer(users, many=True)
+        return Response(serialized_user.data, status.HTTP_200_OK)
     
     def post(self, request):
         '''
@@ -60,6 +69,7 @@ class UserInfo(APIView):
                     return Response({"user_created": user.data}, status.HTTP_200_OK)
                 return Response({"invalid_credentials": user.errors}, status.HTTP_400_BAD_REQUEST)
             return Response({"invalid_pass": "passwords do not match!"}, status.HTTP_400_BAD_REQUEST)
+            
         # for a log in request
         data= request.data
         user= authenticate(request, **data)
