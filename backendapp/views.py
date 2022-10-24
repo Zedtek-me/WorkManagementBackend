@@ -32,10 +32,11 @@ class TodoView(APIView):
         if not "To-Create-Todo" in request.headers:
             # meant to search for a data at the backend
             data= json.loads(request.body)
-            db_data= Todo.objects.fileter(Q(item__icontains=data.get("query"))| Q(name__icontains=data.get("query")))
+            db_data= Todo.objects.filter(Q(item__icontains=data.get("query"))| Q(name__icontains=data.get("query")))
             if db_data:
                 serialized_result= TodoSerializer(db_data, many=True)
                 return Response(serialized_result.data, status.HTTP_200_OK)
+        # create a new todo record
         data= request.data
         return Response({"sent_data": data}, status.HTTP_200_OK)
 
