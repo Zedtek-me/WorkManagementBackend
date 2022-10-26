@@ -37,8 +37,12 @@ class TodoView(APIView):
                 serialized_result= TodoSerializer(db_data, many=True)
                 return Response(serialized_result.data, status.HTTP_200_OK)
         # create a new todo record
-        data= request.data
-        return Response({"sent_data": data}, status.HTTP_200_OK)
+        else:
+            data= request.data
+            serialized= TodoSerializer(data=data)
+            if serialized.is_valid():
+                return Response({"todo": serialized.data}, status.HTTP_200_OK)
+            return Response({"sent_data": data}, status.HTTP_200_OK)
 
 
 class UserInfo(APIView):
