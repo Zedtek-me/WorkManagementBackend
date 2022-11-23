@@ -1,7 +1,7 @@
 node_modules
 todoVenv
 .vscode
-
+__pycache__
 # Logs
 logs
 *.log
