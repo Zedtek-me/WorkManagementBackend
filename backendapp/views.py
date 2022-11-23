@@ -26,7 +26,7 @@ class TodoView(APIView):
         except Todo.DoesNotExist:
             return Response({"not_found" :"this activity does not exist in the database."}, status.HTTP_404_NOT_FOUND)
         serialized_single_todo= TodoSerializer(todo)
-        return Response({"todo":serialized_single_todo}, status.HTTP_200_OK)
+        return Response({"todo":serialized_single_todo.data}, status.HTTP_200_OK)
 
     def post(self, request):
         if not "To-Create-Todo" in request.headers:
